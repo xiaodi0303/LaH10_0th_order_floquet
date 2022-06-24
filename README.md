@@ -1,3 +1,3 @@
 # LaH10 0th-order floquet
 
-Using Wannier90's wannier_hr.dat file, we implemented 0th-order floquet calculations for both band structure and (projected) density of states. 
+With a tight-binding model based on wannier_hr.dat from Wannier90 package, we implemented 0th-order floquet calculations for both floquet band structure and (projected) density of states. 
