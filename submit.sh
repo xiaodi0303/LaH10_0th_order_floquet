@@ -24,7 +24,7 @@ do
     #sbatch  job_${i}.sbatch
   done
   sed "s/AA/A=$z/" ../python_codes/job_template2  | sed "s/CC/pol=$pol/" > job_bands.sbatch
-  sbatch  job_bands.sbatch
+  #sbatch  job_bands.sbatch
 
   cd ..
 done
