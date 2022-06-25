@@ -7,8 +7,6 @@
 #SBATCH -N 1               # Total # of nodes 
 #SBATCH -n 56              # Total # of mpi tasks
 #SBATCH -t 04:00:00        # Run time (hh:mm:ss)
-#SBATCH --mail-type=all    # Send email at begin and end of job
-#SBATCH --mail-user=username@tacc.utexas.edu
 #SBATCH -A DMR21001        # Project/Allocation name (req'd if you have more than 1)
 
 AA
