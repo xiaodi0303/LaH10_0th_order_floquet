@@ -50,6 +50,8 @@ print('fermi = ', fermi)
 print('rho_fermi = ', rho_fermi)
 rho_max = np.max(spectra[EF_index-50:EF_index+50])
 print('rho_max = ', rho_max)
+rho_min = np.min(spectra[EF_index-50:EF_index+50])
+print('rho_min = ', rho_min)
 
 np.savetxt('Dos_E_axis.dat', E_axis)
 np.savetxt('Dos_spectra.dat', spectra)
