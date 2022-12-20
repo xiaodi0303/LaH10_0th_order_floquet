@@ -16,6 +16,7 @@ pol=xy
 mkdir figures
 rm data.dat
 rm data_max.dat
+rm data_min.dat
 
 for z in $(seq 0.00 0.05 1.00)
 do
@@ -33,6 +34,7 @@ do
   cd A0_$z
   echo $z  `grep rho_fermi  output_plot  | awk '{print$3}'` >> ../figures/data.txt
   echo $z  `grep rho_max  output_plot  | awk '{print$3}'` >> ../figures/data_max.txt
+  echo $z  `grep rho_min  output_plot  | awk '{print$3}'` >> ../figures/data_min.txt
   cd ..
 done
 
