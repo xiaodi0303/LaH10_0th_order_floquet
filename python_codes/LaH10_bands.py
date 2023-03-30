@@ -29,9 +29,9 @@ searchfile.close()
 high_symm_k=[]
 with open(win_file, "r") as f:
     for i, line in enumerate(f):
-        if i == line_begin_cell+1: a1 = np.array(line.split()).astype(np.float)
-        if i == line_begin_cell+2: a2 = np.array(line.split()).astype(np.float)
-        if i == line_begin_cell+3: a3 = np.array(line.split()).astype(np.float)
+        if i == line_begin_cell+1: a1 = np.array(line.split()).astype(float)
+        if i == line_begin_cell+2: a2 = np.array(line.split()).astype(float)
+        if i == line_begin_cell+3: a3 = np.array(line.split()).astype(float)
         if i  >  line_begin_k and i < line_end_k: high_symm_k.append(line.split())
         if i == line_end_k: break
 
@@ -55,8 +55,8 @@ num_of_paths = high_symm_k.shape[0]
 path= np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
 for i in range(num_of_paths):
     temp = np.array([])
-    temp = np.append(temp,[high_symm_k[i][1:4].astype(np.float)])
-    temp = np.append(temp,[high_symm_k[i][5:8].astype(np.float)])
+    temp = np.append(temp,[high_symm_k[i][1:4].astype(float)])
+    temp = np.append(temp,[high_symm_k[i][5:8].astype(float)])
     path = np.vstack( [path , temp] )
 path = np.delete(path, (0), axis=0)
 
@@ -65,17 +65,6 @@ temp1 = b1[0]*(path[0][3]-path[0][0])+b2[0]*(path[0][4]-path[0][1])+b3[0]*(path[
 temp2 = b1[1]*(path[0][3]-path[0][0])+b2[1]*(path[0][4]-path[0][1])+b3[1]*(path[0][5]-path[0][2])
 temp3 = b1[2]*(path[0][3]-path[0][0])+b2[2]*(path[0][4]-path[0][1])+b3[2]*(path[0][5]-path[0][2])
 delta_k = math.sqrt(temp1 ** 2 + temp2 ** 2 + temp3 ** 2 ) / k_points_num_1st_path
-
-#len_b1= math.sqrt(b1[0] ** 2 + b1[1] ** 2 + b1[2] ** 2)
-#len_b2= math.sqrt(b2[0] ** 2 + b2[1] ** 2 + b2[2] ** 2)
-#len_b3= math.sqrt(b3[0] ** 2 + b3[1] ** 2 + b3[2] ** 2)
-
-print(path)
-print(b1)
-print(delta_k)
-
-test = np.linspace(0.1,0.5,5)
-
 
 k1= np.array([])
 k2= np.array([])
@@ -113,6 +102,8 @@ searchfile.close()
 k_axis= k_axis - k_axis[0]
 print(k_axis)
 
+#k_axis = 2.040860868382047943
+
 f = open('wannier_band.gnu','r')                                        
 for l in f:
   if 'set xtics' in l:
@@ -139,14 +130,15 @@ m = data[:,3].astype(int)
 n = data[:,4].astype(int)
 H_R = data[:,5] + 1j * data[:,6]
 
-H_k=np.zeros((num_wann , num_wann), dtype=np.complex)
+H_k=np.zeros((num_wann , num_wann), dtype=complex)
 
 m_order=0
 phi=0
 eigenvals_data= np.zeros((tot_num_of_k,num_wann))
+eigenvecs_data = np.zeros((tot_num_of_k, num_wann, num_wann), dtype = complex)
 for i in range(tot_num_of_k):
     print(i)
-    H_k=np.zeros((num_wann , num_wann), dtype=np.complex)
+    H_k=np.zeros((num_wann , num_wann), dtype=complex)
     for j in range( 0 , lines ):
         d1= R[j][0]+r[n[j]-1][0]-r[m[j]-1][0]
         d2= R[j][1]+r[n[j]-1][1]-r[m[j]-1][1]
@@ -155,11 +147,13 @@ for i in range(tot_num_of_k):
     H_k = H_k * e **(-1j*m_order* (phi+pi/2) )
     #eigenvals = la.eigvals(H_k).real
     #eigenvals = la.eigvalsh(H_k).real
-    eigenvals = LA.eigvalsh(H_k).real
+    eigenvals, eigenvecs = LA.eigh(H_k)
     #eigenvals = np.sort(eigenvals)
     eigenvals_data[i] = eigenvals
+    eigenvecs_data[i] = eigenvecs
 
 np.savetxt('bands_eigenvals.dat', eigenvals_data)
+np.save('bands_eigenvecs.npy', eigenvecs_data)
 np.savetxt('bands_k_axis.dat', k_axis)
 
 '''
