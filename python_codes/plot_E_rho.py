@@ -9,14 +9,13 @@ omega = 500
 
 data=np.loadtxt('data.txt')
 data_max=np.loadtxt('data_max.txt')
-data_min=np.loadtxt('data_min.txt')
 
 fig = plt.figure(figsize=(8,6))
 ax = fig.add_subplot(111)
 
 ax.plot(data[:,0]*omega, data[:,1],'-ob', alpha=0.6,markersize=10 , label=r'$\rho_F$')
 ax.plot(data_max[:,0]*omega, data_max[:,1],'-sr', alpha=0.6,markersize=10 , label=r'$\rho_{max}$')
-ax.plot(data_min[:,0]*omega, data_min[:,1],'-sr', alpha=0.6,markersize=10 , label=r'$\rho_{min}$')
+
 
 plt.xlabel('electric field (mV/Å)',fontsize=14)
 plt.ylabel('density of states (states/eV per unitcell)',fontsize=14)

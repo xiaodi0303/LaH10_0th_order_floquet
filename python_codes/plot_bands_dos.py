@@ -6,13 +6,17 @@ import sys
 
 pol = sys.argv[1]
 A0  = float(sys.argv[2])
+m_order = int(sys.argv[3])
+m_max = m_order - 1
 
 num_e = 19
 totalsteps = 35001
 
+fermi = 20.4331 # Manually input
 Emin = -10
 Emax = 6
 
+'''
 omega = 500
 
 E_axis = np.loadtxt('dos_E_axis.dat')
@@ -50,13 +54,11 @@ print('fermi = ', fermi)
 print('rho_fermi = ', rho_fermi)
 rho_max = np.max(spectra[EF_index-50:EF_index+50])
 print('rho_max = ', rho_max)
-rho_min = np.min(spectra[EF_index-50:EF_index+50])
-print('rho_min = ', rho_min)
 
 np.savetxt('Dos_E_axis.dat', E_axis)
 np.savetxt('Dos_spectra.dat', spectra)
 np.savetxt('Dos_sum_spectra.dat', sum_spectra)
-
+'''
 k_axis = np.loadtxt('bands_k_axis.dat')
 eigenvals_data = np.loadtxt('bands_eigenvals.dat')
 
@@ -85,14 +87,14 @@ for i in range(len(line)):
 f.close()
 
 fig = plt.figure(figsize=(7.5,4.5), constrained_layout=True)
-gs = fig.add_gridspec(1, 4)
-
-ax1 = fig.add_subplot(gs[:,0:3])
-ax2 = fig.add_subplot(gs[:,3])
+#gs = fig.add_gridspec(1, 4)
+ax1 = fig.add_subplot()
+#ax1 = fig.add_subplot(gs[:,0:3])
+#ax2 = fig.add_subplot(gs[:,3])
 
 for axis in ['top','bottom','left','right']:
     ax1.spines[axis].set_linewidth(2)
-for i in range(num_wann):
+for i in range(num_wann * (2 * m_max + 1)):
     y = eigenvals_data[:,i] - fermi
     ax1.plot(k_axis,y,c='b',linewidth=2)
 
@@ -113,7 +115,7 @@ ax1.set_xlim(high_points[0],high_points[-1])
 ax1.set_ylim(Emin,Emax)
 #################################################################
 
-
+'''
 ax2.plot(spectra, E_axis-fermi, c= 'b',linewidth=2)
 ax2.axhline(y=0.0, color='gray', linestyle='--', linewidth=1)
 #ax2.set_ylabel('energy (eV)', fontsize=16)
@@ -134,7 +136,7 @@ for axis in ['top','bottom','left','right']:
     ax2.spines[axis].set_linewidth(2)
 
 ax2.tick_params(labelsize=14)
-
+'''
 
 #plt.suptitle("polarization: x\n $A_0$ = " + A0)
-plt.savefig('bands_dos_0th_order_'+"{:.2f}".format(A0)+'.png',dpi=300,bbox_inches='tight')
+plt.savefig('bands_dos_'+"{:d}".format(m_order)+'_order_'+"{:.2f}".format(A0)+'.png',dpi=300,bbox_inches='tight')
