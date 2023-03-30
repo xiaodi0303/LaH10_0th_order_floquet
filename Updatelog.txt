@@ -1,0 +1,24 @@
+job_collect_eigval.sbatch: 
+
+Included to collect eigenvalues. 
+
+job_collect_eigvec.sbatch:
+
+Included to collect eigenvectors. 
+
+LaH10_bands.py: 
+
+Changed the lines for diagonalization to output both eigenvalues and eigenvectors. 
+Notice: Eigenvalue outputs are complex, not real. 
+
+plot_bands_dos.py: 
+
+Added variable 'fermi' as Fermi level. Commented out all parts regarding to PDOS. 
+
+submit.sh: 
+
+Nothing changed. 
+
+wannier_band.kpt: 
+
+Changed to a single k-point. 
